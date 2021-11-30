@@ -17,16 +17,7 @@
           <v-row class="text-center">{{ patient.birthDate }}</v-row>
         </v-card>
         <v-card class="pa-7 mt-7" outlined>
-          <v-row>
-            <v-slider
-              v-model="age"
-              color="orange"
-              label="Age"
-              min="18"
-              max="100"
-              thumb-label
-            ></v-slider>
-          </v-row>
+          <v-row> </v-row>
           <v-row>
             <v-slider
               v-model="weight"
@@ -50,7 +41,6 @@
 
           <v-row>
             <v-col>
-              <v-row>Age: {{ age }}</v-row>
               <v-row>Weight: {{ weight }}</v-row>
               <v-row>Height: {{ height }}</v-row>
             </v-col>
@@ -78,8 +68,8 @@
               </v-row>
             </v-col>
             <v-col>
-              <v-btn @click="addBMI(bmi)" elevation="2">Add</v-btn>
-            </v-col>
+              <v-btn @click="addBMI(bmi)" elevation="2">Add</v-btn> </v-col
+            ><!--
             <v-sparkline
               class="mt-10"
               :value="value"
@@ -93,25 +83,19 @@
               :type="type"
               :auto-line-width="autoLineWidth"
               auto-draw
-            ></v-sparkline>
+            ></v-sparkline>-->
           </v-row>
         </v-card>
         <v-row class="mt-7">
           <v-col>
             <v-sheet height="500">
               <v-calendar :now="today" :value="today" color="primary">
-                <template v-slot:day="{ past, date }">
+                <template v-slot:day="{ date }">
                   <v-row class="fill-height">
-                    <template v-if="past && tracked[date]">
-                      <v-sheet
-                        v-for="(percent, i) in tracked[date]"
-                        :key="i"
-                        :title="category[i]"
-                        :color="colors[i]"
-                        :width="`${percent}%`"
-                        height="100%"
-                        tile
-                      ></v-sheet>
+                    <template v-if="tracked[date]">
+                      <v-card color="primary" flat class="mx-auto pa-3">
+                        {{ tracked[date] }}</v-card
+                      >
                     </template>
                   </v-row>
                 </template>
@@ -128,8 +112,6 @@
 export default {
   name: "App",
 
-  components: {},
-
   data: () => ({
     width: 2,
     radius: 10,
@@ -138,24 +120,17 @@ export default {
     gradient: ["#58e4d4", "#00bad1", "#ff6c6c"],
     value: [2, 5, 9, 5, 10, 3, 5, 0, 0, 1, 8, 2, 9],
     gradientDirection: "top",
-
     fill: false,
     type: "trend",
     autoLineWidth: false,
     today: new Date(),
     tracked: {
-      "2019-01-09": [23, 45, 10],
-      "2019-01-08": [10],
-      "2019-01-07": [0, 78, 5],
-      "2019-01-06": [0, 0, 50],
-      "2019-01-05": [0, 10, 23],
-      "2019-01-04": [2, 90],
-      "2019-01-03": [10, 32],
-      "2019-01-02": [80, 10, 10],
-      "2019-01-01": [20, 25, 10],
+      "2021-11-29": 31,
+      "2021-11-22": 31.3,
+      "2021-11-15": 31.6,
+      "2021-11-08": 32,
+      "2021-11-01": 32.3,
     },
-    colors: ["#1867c0", "#fb8c00", "#000000"],
-    category: ["Development", "Meetings", "Slacking"],
 
     age: 18,
     weight: 20,
@@ -203,8 +178,16 @@ export default {
   }),
   methods: {
     addBMI(value) {
-      this.value.shift();
-      this.value[this.value.length] = value;
+      let date = new Date();
+      let day = date.getDate();
+      let month = date.getMonth() + 1;
+      let year = date.getFullYear();
+
+      this.tracked[year + "-" + month + "-" + day] = value;
+      console.log(this.tracked);
+      this.tracked = JSON.parse(JSON.stringify(this.tracked));
+      //this.value.shift();
+      //this.value[this.value.length] = value;
     },
   },
 

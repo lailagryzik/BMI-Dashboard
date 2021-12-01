@@ -125,7 +125,7 @@ export default {
     autoLineWidth: false,
     today: new Date(),
     tracked: {
-      "2021-11-29": 31,
+      "2021-11-30": 30.7,
       "2021-11-22": 31.3,
       "2021-11-15": 31.6,
       "2021-11-08": 32,

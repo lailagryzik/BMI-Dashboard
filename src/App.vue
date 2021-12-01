@@ -181,9 +181,13 @@ export default {
       let date = new Date();
       let day = date.getDate();
       let month = date.getMonth() + 1;
+
+      month = month < 10 ? "0" + month : month;
+      day = day < 10 ? "0" + day : day;
+
       let year = date.getFullYear();
 
-      this.tracked[date.toString("YYYY-MM-DD")] = value;
+      this.tracked[year + "-" + month + "-" + day] = value;
       console.log(this.tracked);
       this.tracked = JSON.parse(JSON.stringify(this.tracked));
       //this.value.shift();
